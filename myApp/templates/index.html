@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+{% load static %}  
+<div class="container">
+    <div class="custom-card">
+        <h1 class="home_h">Recommendatation System</h1>
+        <form action="{% url 'recommend' %}" method="POST" class="input_form mb-5">
+            {% csrf_token %}
+            <div class="row mb-4 d-flex justify-content-center">
+                <div class="col-md-8 text-center">
+                    <label for="product" class="mb-2 fw-bolder">Enter Title</label>
+                    <input type="text" class="form-control" name="product" placeholder="Enter title" id="product" required="required">
+                </div>
+            </div>
+            <div class="mt-5 d-flex justify-content-center">
+                <button type="submit" class="btn submit_btn">Recommend</button>
+            </div>
+        </form>                           
+    </div>
+    {% if recommendations %}
+    <div class="row g-5 my-5">
+        {% for product in recommendations %}
+        <div class="col-md-4">
+            <div class="card p-4 bg-dark text-light">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.Title }}</h5>
+                    <p class="card-text">Category: {{ product.Category }}</p>
+                    <p class="card-text">Sub-Category: {{ product.Sub_Category }}</p>  <!-- Use square brackets -->
+                    <p class="card-text">Price: ${{ product.Price }}</p>
+                    <p class="card-text">Ratings: {{ product.Ratings }}</p>
+                    <p class="card-text">Total Ratings: {{ product.Total_Ratings }}</p>  <!-- Use square brackets -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
